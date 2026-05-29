@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#ff6600">
+  <meta name="description" content="LegentShop - Your one-stop shop for electronics, fashion and more">
+  <title>LegentShop - Online Shopping</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- SIDEBAR OVERLAY -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <h3>Categories</h3>
+    <a class="category-link" data-cat="all">All Products</a>
+    <a class="category-link" data-cat="electronics">📱 Electronics</a>
+    <a class="category-link" data-cat="fashion">👕 Fashion</a>
+    <div class="sidebar-divider"></div>
+    <a class="category-link" onclick="App.navigate('cart')">🛒 Cart</a>
+    <a class="category-link" onclick="App.navigate('checkout')">📋 Checkout</a>
+    <div class="sidebar-divider"></div>
+    <a class="category-link" href="admin.html" target="_blank">⚙️ Admin Panel</a>
+  </aside>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <button id="hamburger" class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="#" id="logo-link" class="logo">Legent<span>Shop</span></a>
+
+      <form id="search-form" class="search-bar" autocomplete="off">
+        <input type="text" id="search-input" placeholder="Search products..." aria-label="Search">
+        <button type="submit" aria-label="Search">🔍</button>
+      </form>
+
+      <div class="nav-actions">
+        <button id="dark-toggle" class="dark-toggle" aria-label="Toggle dark mode">
+          <span id="dark-icon">🌙</span>
+        </button>
+        <button id="cart-btn" class="cart-btn" aria-label="Cart">
+          🛒
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div id="view-container" class="view-container"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#" onclick="App.navigate('home')">Home</a>
+        <a href="#" onclick="App.navigate('cart')">Cart</a>
+        <a href="admin.html" target="_blank">Admin</a>
+      </div>
+      <p>&copy; 2026 LegentShop. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scroll-top" class="scroll-top" onclick="App.scrollToTop()" aria-label="Scroll to top">↑</button>
+
+  <script src="app.js"></script>
+</body>
+</html>

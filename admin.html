@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff6600">
+  <title>LegentShop - Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-layout {
+      display: grid;
+      gap: 24px;
+    }
+
+    .admin-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-form .form-row {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .admin-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .admin-form .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .admin-form .form-group input,
+    .admin-form .form-group select,
+    .admin-form .form-group textarea {
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border var(--transition);
+    }
+
+    .admin-form .form-group input:focus,
+    .admin-form .form-group select:focus,
+    .admin-form .form-group textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .admin-form .form-group textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+
+    .admin-form .btn-submit {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background var(--transition);
+      width: 100%;
+    }
+
+    .admin-form .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .admin-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: var(--bg);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .admin-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .admin-table .prod-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #fafafa;
+    }
+
+    .admin-table .prod-name {
+      font-weight: 600;
+    }
+
+    .admin-table .prod-cat {
+      font-size: 0.75rem;
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .admin-table .btn-delete {
+      padding: 6px 14px;
+      background: var(--error);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: opacity var(--transition);
+    }
+
+    .admin-table .btn-delete:hover {
+      opacity: 0.85;
+    }
+
+    .admin-table .btn-toggle-featured {
+      padding: 6px 14px;
+      background: var(--warning);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: opacity var(--transition);
+    }
+
+    .admin-table .btn-toggle-featured:hover {
+      opacity: 0.85;
+    }
+
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .admin-stat {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-stat .stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .admin-stat .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .admin-header h1 {
+      font-size: 1.4rem;
+    }
+
+    .admin-header a {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .reset-btn {
+      padding: 8px 16px;
+      background: var(--error);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: opacity var(--transition);
+    }
+
+    .reset-btn:hover {
+      opacity: 0.85;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    @media (min-width: 768px) {
+      .admin-form .form-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .admin-layout {
+        grid-template-columns: 380px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="toast-container" class="toast-container"></div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">Legent<span>Shop</span></a>
+      <span style="font-size:0.85rem;color:var(--text-secondary);font-weight:600;">Admin Panel</span>
+      <div class="nav-actions">
+        <a href="index.html" style="padding:8px 16px;background:var(--primary);color:#fff;border-radius:50px;font-size:0.85rem;font-weight:600;">← Store</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PASSWORD SCREEN -->
+  <div id="pscreen" style="position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center">
+    <div style="background:var(--card);padding:40px;border-radius:12px;box-shadow:var(--shadow-hover);text-align:center;max-width:360px;width:90%">
+      <div style="font-size:3rem;margin-bottom:12px">🔒</div>
+      <h2 style="font-size:1.2rem;margin-bottom:4px">Admin Access</h2>
+      <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px">Enter password to continue</p>
+      <input type="password" id="apw" placeholder="Enter password" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:1rem;outline:none;margin-bottom:12px;text-align:center">
+      <div id="apwerr" style="color:var(--error);font-size:0.82rem;margin-bottom:10px;display:none">Incorrect password</div>
+      <button onclick="Admin.checkPassword()" style="width:100%;padding:12px;background:var(--primary);color:#fff;border-radius:8px;font-weight:600;font-size:1rem">Unlock</button>
+    </div>
+  </div>
+
+  <!-- ADMIN CONTENT (hidden until password verified) -->
+  <div id="admin-content" style="display:none">
+  <main class="main">
+    <div class="container">
+      <div class="admin-header">
+        <h1>⚙️ Admin Dashboard</h1>
+        <button class="reset-btn" onclick="Admin.resetDefaults()">Reset Default Products</button>
+      </div>
+
+      <div id="admin-stats" class="admin-stats"></div>
+
+      <div class="admin-layout">
+        <div class="admin-card">
+          <h2>➕ Add New Product</h2>
+          <form id="admin-form" class="admin-form" autocomplete="off">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="p-name">Product Name</label>
+                <input type="text" id="p-name" required placeholder="e.g. Wireless Headphones">
+              </div>
+              <div class="form-group">
+                <label for="p-category">Category</label>
+                <select id="p-category">
+                  <option value="electronics">Electronics</option>
+                  <option value="fashion">Fashion</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="p-price">Price ($)</label>
+                <input type="number" id="p-price" step="0.01" min="0.01" required placeholder="29.99">
+              </div>
+              <div class="form-group">
+                <label for="p-original-price">Original Price ($) (optional)</label>
+                <input type="number" id="p-original-price" step="0.01" min="0" placeholder="39.99">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="p-image">Image URL</label>
+              <input type="url" id="p-image" required placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="form-group">
+              <label for="p-description">Description</label>
+              <textarea id="p-description" required placeholder="Product description..."></textarea>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="p-featured">
+              <label for="p-featured">⭐ Mark as Featured</label>
+            </div>
+            <button type="submit" class="btn-submit" style="margin-top:16px">➕ Add Product</button>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h2>📦 All Products</h2>
+          <div id="product-list">
+            <div class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  </div>
+
+  <script>
+    const Admin = {
+      products: [],
+
+      init() {
+        document.getElementById('apw').addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') this.checkPassword();
+        });
+        if (sessionStorage.getItem('adminAuth') === '1') {
+          this.unlock();
+        }
+      },
+
+      checkPassword() {
+        const input = document.getElementById('apw');
+        const err = document.getElementById('apwerr');
+        if (input.value === '12341234') {
+          sessionStorage.setItem('adminAuth', '1');
+          this.unlock();
+        } else {
+          err.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      },
+
+      unlock() {
+        document.getElementById('pscreen').style.display = 'none';
+        document.getElementById('admin-content').style.display = 'block';
+        this.loadProducts();
+        this.render();
+        this.bindEvents();
+      },
+
+      loadProducts() {
+        const stored = localStorage.getItem('shopProducts');
+        if (stored) {
+          try {
+            this.products = JSON.parse(stored);
+          } catch {
+            this.products = [];
+          }
+        } else {
+          this.products = [];
+        }
+      },
+
+      saveProducts() {
+        localStorage.setItem('shopProducts', JSON.stringify(this.products));
+        window.dispatchEvent(new Event('storage'));
+      },
+
+      render() {
+        this.renderStats();
+        this.renderTable();
+      },
+
+      renderStats() {
+        const el = document.getElementById('admin-stats');
+        const total = this.products.length;
+        const featured = this.products.filter(p => p.featured).length;
+        const electronics = this.products.filter(p => p.category === 'electronics').length;
+        const fashion = this.products.filter(p => p.category === 'fashion').length;
+        el.innerHTML = `
+          <div class="admin-stat"><div class="stat-num">${total}</div><div class="stat-label">Total Products</div></div>
+          <div class="admin-stat"><div class="stat-num">${featured}</div><div class="stat-label">Featured</div></div>
+          <div class="admin-stat"><div class="stat-num">${electronics}</div><div class="stat-label">Electronics</div></div>
+          <div class="admin-stat"><div class="stat-num">${fashion}</div><div class="stat-label">Fashion</div></div>
+        `;
+      },
+
+      renderTable() {
+        const el = document.getElementById('product-list');
+        if (this.products.length === 0) {
+          el.innerHTML = `<div class="empty-state">No products yet. Add your first product!</div>`;
+          return;
+        }
+        el.innerHTML = `
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Featured</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${this.products.map(p => {
+                  const discount = p.originalPrice > p.price ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
+                  return `
+                    <tr>
+                      <td><img class="prod-img" src="${p.image}" alt="${p.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><rect fill=%22%23f0f0f0%22 width=%2248%22 height=%2248%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2210%22>N/A</text></svg>'"></td>
+                      <td><span class="prod-name">${p.name}</span></td>
+                      <td><span class="prod-cat">${p.category}</span></td>
+                      <td>$${p.price.toFixed(2)} ${discount > 0 ? `<span style="font-size:0.7rem;color:var(--success)">(-${discount}%)</span>` : ''}</td>
+                      <td>${p.featured ? '⭐' : '−'}</td>
+                      <td>
+                        <button class="btn-toggle-featured" onclick="Admin.toggleFeatured('${p.id}')">${p.featured ? 'Unfeature' : 'Feature'}</button>
+                        <button class="btn-delete" onclick="Admin.deleteProduct('${p.id}')">Delete</button>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      },
+
+      addProduct(e) {
+        e.preventDefault();
+        const name = document.getElementById('p-name').value.trim();
+        const category = document.getElementById('p-category').value;
+        const price = parseFloat(document.getElementById('p-price').value);
+        const originalPriceInput = document.getElementById('p-original-price').value;
+        const originalPrice = originalPriceInput ? parseFloat(originalPriceInput) : price;
+        const image = document.getElementById('p-image').value.trim();
+        const description = document.getElementById('p-description').value.trim();
+        const featured = document.getElementById('p-featured').checked;
+
+        if (!name || !price || !image || !description) {
+          this.showToast('Please fill all required fields', 'error');
+          return;
+        }
+
+        const id = 'p' + Date.now();
+
+        this.products.push({
+          id,
+          name,
+          category,
+          price,
+          originalPrice: originalPrice > price ? originalPrice : price,
+          image,
+          description,
+          featured,
+          discount: originalPrice > price ? Math.round((1 - price / originalPrice) * 100) : 0,
+        });
+
+        this.saveProducts();
+        this.render();
+        e.target.reset();
+        document.getElementById('p-featured').checked = false;
+        this.showToast(`"${name}" added successfully!`, 'success');
+      },
+
+      deleteProduct(id) {
+        if (!confirm('Delete this product?')) return;
+        const product = this.products.find(p => p.id === id);
+        this.products = this.products.filter(p => p.id !== id);
+        this.saveProducts();
+        this.render();
+        if (product) this.showToast(`"${product.name}" deleted`, 'success');
+      },
+
+      toggleFeatured(id) {
+        const product = this.products.find(p => p.id === id);
+        if (product) {
+          product.featured = !product.featured;
+          this.saveProducts();
+          this.render();
+          this.showToast(product.featured ? 'Marked as featured' : 'Unmarked as featured', 'success');
+        }
+      },
+
+      resetDefaults() {
+        if (!confirm('Reset all products to default samples? This will overwrite current products.')) return;
+        const defaults = [
+          { id: 'p1', name: 'Wireless Bluetooth Headphones', price: 79, originalPrice: 99, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400', category: 'electronics', description: 'Premium wireless headphones with noise cancellation, 30-hour battery life, and comfortable over-ear design.', featured: true, discount: 20 },
+          { id: 'p2', name: 'Smartphone Pro Max', price: 899, originalPrice: 1099, image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400', category: 'electronics', description: '6.7-inch display, 128GB storage, 48MP camera, 5G connectivity.', featured: true, discount: 18 },
+          { id: 'p3', name: 'Running Shoes Ultra', price: 89, originalPrice: 129, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400', category: 'fashion', description: 'Lightweight running shoes with responsive cushioning and breathable mesh upper.', featured: true, discount: 31 },
+          { id: 'p4', name: 'Classic Denim Jacket', price: 59, originalPrice: 79, image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400', category: 'fashion', description: 'Timeless denim jacket with a modern fit. Perfect for layering.', featured: false, discount: 25 },
+          { id: 'p5', name: 'Smart Watch Series 5', price: 199, originalPrice: 249, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400', category: 'electronics', description: 'Fitness tracking, heart rate monitor, GPS, and 7-day battery life.', featured: true, discount: 20 },
+          { id: 'p6', name: 'Leather Messenger Bag', price: 69, originalPrice: 89, image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400', category: 'fashion', description: 'Genuine leather messenger bag with padded laptop compartment.', featured: false, discount: 22 },
+          { id: 'p7', name: '4K Ultra HD Monitor', price: 399, originalPrice: 499, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400', category: 'electronics', description: '27-inch 4K UHD monitor with HDR10, IPS panel, and USB-C connectivity.', featured: false, discount: 20 },
+          { id: 'p8', name: 'Aviator Sunglasses', price: 49, originalPrice: 69, image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400', category: 'fashion', description: 'Classic aviator sunglasses with UV400 protection and gold frame.', featured: true, discount: 29 },
+          { id: 'p9', name: 'Wireless Gaming Mouse', price: 49, originalPrice: 59, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400', category: 'electronics', description: 'Ergonomic gaming mouse with 16000 DPI, RGB lighting, and 70-hour battery.', featured: false, discount: 17 },
+          { id: 'p10', name: 'Casual Canvas Backpack', price: 39, originalPrice: 49, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400', category: 'fashion', description: 'Spacious canvas backpack with multiple compartments and padded straps.', featured: false, discount: 20 },
+          { id: 'p11', name: 'Portable Bluetooth Speaker', price: 29, originalPrice: 39, image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400', category: 'electronics', description: 'Waterproof portable speaker with 12-hour battery and deep bass.', featured: false, discount: 26 },
+          { id: 'p12', name: 'Premium Cotton T-Shirt', price: 24, originalPrice: 34, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', category: 'fashion', description: 'Soft 100% organic cotton t-shirt. Available in multiple colors.', featured: false, discount: 29 },
+        ];
+        this.products = defaults;
+        this.saveProducts();
+        this.render();
+        this.showToast('Reset to default products', 'success');
+      },
+
+      showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+        toast.innerHTML = `<span class="toast-icon">${icon}</span> ${message}`;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(100%)';
+          toast.style.transition = 'all 0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      },
+
+      bindEvents() {
+        document.getElementById('admin-form').addEventListener('submit', (e) => this.addProduct(e));
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => Admin.init());
+  </script>
+</body>
+</html>
